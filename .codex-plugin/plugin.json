@@ -1,0 +1,38 @@
+{
+  "name": "cpc-toolbelt",
+  "version": "0.1.0",
+  "description": "AIwander CPC Toolbelt for Codex/ChatGPT: Hands MCP + Cache path skills + optional Workflow / Manager / Voice. Does not include Autonomous.",
+  "author": {
+    "name": "AIwander",
+    "email": "contact@aiwander.ai",
+    "url": "https://aiwander.ai"
+  },
+  "homepage": "https://aiwander.ai",
+  "repository": "https://github.com/AIWander/CPC-Toolbelt-Codex",
+  "license": "Apache-2.0",
+  "keywords": [
+    "cpc",
+    "hands",
+    "toolbelt",
+    "aiwander",
+    "codex"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "CPC Toolbelt",
+    "shortDescription": "Hands automation + Cache path skills for Codex",
+    "longDescription": "AIwander CPC Toolbelt for Codex and ChatGPT. Bundles Hands MCP (stdio), Cache path skills, and optional Workflow / Manager / Voice guidance. Programmer is directed-only and not default-wired. Autonomous is not included.",
+    "developerName": "AIwander",
+    "category": "Productivity",
+    "capabilities": ["Interactive", "Read", "Write"],
+    "websiteURL": "https://aiwander.ai",
+    "privacyPolicyURL": "https://aiwander.ai/privacy",
+    "defaultPrompt": [
+      "Set up CPC Toolbelt for this machine",
+      "Use Hands to automate a browser task",
+      "Prefer CPC_CACHE before network lookups"
+    ],
+    "brandColor": "#0B5FFF",
+    "logo": "./assets/logo.svg"
+  }
+}

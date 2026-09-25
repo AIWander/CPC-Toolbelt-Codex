@@ -1,0 +1,20 @@
+{
+  "_comment": "Example optional CPC MCP servers. Merge into .mcp.json / mcp.json only when the user asks. Do NOT include Autonomous / port 7771. Programmer is directed-only — include only when explicitly requested for a Codex coding stack.",
+  "mcpServers": {
+    "voice": {
+      "command": "C:/CPC/servers/voice.exe"
+    },
+    "workflow": {
+      "command": "C:/CPC/servers/workflow.exe",
+      "env": {
+        "CPC_WORKFLOW_DATA_DIR": "C:/CPC/data/workflow"
+      }
+    },
+    "manager": {
+      "command": "C:/CPC/servers/manager.exe",
+      "env": {
+        "MANAGER_DATA_DIR": "C:/CPC/data/manager"
+      }
+    }
+  }
+}
