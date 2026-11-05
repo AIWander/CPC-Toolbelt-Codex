@@ -17,10 +17,12 @@ Local / team distribution: repo or personal marketplace (this repo ships one).
 - Display name: CPC Toolbelt
 - Version: 0.1.0
 
+Hands home resolves at runtime: `HANDS_HOME`, else `CPC_ROOT`, else `%LOCALAPPDATA%\AIWander\Hands` (the current user's application-data directory plus `AIWander/Hands` when `LOCALAPPDATA` is unset). Cache is `CPC_CACHE`, else `<Hands home>/cache`. The bundled Hands entry uses Node.js to resolve and start the local executable over stdio.
+
 ## Local marketplace commands
 
 ```bash
-codex plugin marketplace add C:\CPC\suite_attempts\CPC-Toolbelt-Codex
+codex plugin marketplace add .
 codex plugin marketplace add AIWander/CPC-Toolbelt-Codex
 codex plugin marketplace list
 codex plugin list
@@ -28,14 +30,18 @@ codex plugin list
 
 Then install **cpc-toolbelt** from marketplace `aiwander-cpc` in the ChatGPT desktop Plugins Directory or via `codex plugin add` when targeting a configured marketplace entry.
 
+Run `getting-started` after install. It calls `hands_setup_status` before any other Hands tool.
+
 ## Manual fallback
 
 ```text
 copy/clone → %USERPROFILE%\.codex\plugins\cpc-toolbelt
 edit ~/.agents/plugins/marketplace.json → source.path to that folder (relative to marketplace root)
 restart ChatGPT desktop / refresh Codex
-fix Hands path in .mcp.json if CPC_ROOT ≠ C:/CPC
+verify node is on PATH and run getting-started
 ```
+
+Do not commit that resolved path.
 
 ## Listing copy
 
@@ -57,13 +63,15 @@ fix Hands path in .mcp.json if CPC_ROOT ≠ C:/CPC
 
 ## Not in this submission
 
-- Autonomous / port 7771
+- Autonomous (separate product; not an installable free MCP server)
 - Programmer as a default MCP (directed-only)
 - Compiled `hands.exe` binaries inside the plugin folder
 - Cache MCP (path + skills only)
+- A shared-host port map, a device nickname, or a hard-coded install root
 
 ## After local verify
 
-1. `codex plugin marketplace add` succeeds (or manual install documented).
-2. Hands tools appear after enable.
-3. Optional: submit to the public ChatGPT/Codex plugin directory when ready.
+1. `node scripts/validate.mjs` prints `ok`.
+2. `codex plugin marketplace add` succeeds (or manual install documented).
+3. Hands tools appear after enable.
+4. Optional: submit to the public ChatGPT/Codex plugin directory when ready.

@@ -21,14 +21,14 @@
   "interface": {
     "displayName": "CPC Toolbelt",
     "shortDescription": "Hands automation + Cache path skills for Codex",
-    "longDescription": "AIwander CPC Toolbelt for Codex and ChatGPT. Bundles Hands MCP (stdio), Cache path skills, and optional Workflow / Manager / Voice guidance. Programmer is directed-only and not default-wired. Autonomous is not included.",
+    "longDescription": "AIwander CPC Toolbelt for Codex and ChatGPT. Bundles Hands MCP (stdio, with Hands home resolved at startup), Cache path skills, and optional Workflow / Manager / Voice guidance. Hands home is HANDS_HOME, else CPC_ROOT, else the per-user AIWander/Hands directory. Programmer is directed-only and not default-wired. Autonomous is not included.",
     "developerName": "AIwander",
     "category": "Productivity",
     "capabilities": ["Interactive", "Read", "Write"],
     "websiteURL": "https://aiwander.ai",
     "privacyPolicyURL": "https://aiwander.ai/privacy",
     "defaultPrompt": [
-      "Set up CPC Toolbelt for this machine",
+      "Call hands_setup_status, then set up CPC Toolbelt for this machine",
       "Use Hands to automate a browser task",
       "Prefer CPC_CACHE before network lookups"
     ],

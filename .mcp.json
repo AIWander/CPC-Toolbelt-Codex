@@ -1,7 +1,11 @@
 {
   "mcpServers": {
     "hands": {
-      "command": "C:/CPC/servers/hands.exe"
+      "type": "stdio",
+      "command": "node",
+      "args": ["./scripts/launch-hands.cjs"],
+      "cwd": ".",
+      "env_vars": ["HANDS_HOME", "CPC_ROOT", "CPC_CACHE", "XDG_DATA_HOME"]
     }
   }
 }
