@@ -3,7 +3,7 @@
  * Fail if the Codex Toolbelt plugin ships a machine-specific path,
  * a device nickname, a CGNAT example address, or a published host port.
  *
- * Stdio MCP commands must use ${HANDS_HOME}, filled at install time.
+ * Hands starts through the bundled resolver-backed stdio launcher.
  */
 import fs from 'fs';
 import os from 'os';
@@ -46,6 +46,7 @@ for (const rel of [
   '.mcp.json',
   'mcp.optionals.example.json',
   'scripts/resolve-paths.cjs',
+  'scripts/launch-hands.cjs',
   'skills/getting-started/SKILL.md',
   'skills/hands-getting-started/SKILL.md',
   'skills/toolbelt-setup/SKILL.md',
@@ -85,7 +86,20 @@ function assertStdioServers(rel, doc) {
     }
     if (spec.url) errors.push(rel + ' ' + name + ' must be stdio, not a url');
     if (spec.type !== 'stdio') errors.push(rel + ' ' + name + ' must set type "stdio"');
-    assertInstallTime(rel, name, 'command', spec.command);
+    if (name === 'hands') {
+      const launcher = rel === 'mcp.json'
+        ? '${PLUGIN_ROOT}/scripts/launch-hands.cjs'
+        : './scripts/launch-hands.cjs';
+      if (spec.command !== 'node' || spec.args?.length !== 1 || spec.args[0] !== launcher) {
+        errors.push(rel + ' must launch Hands through scripts/launch-hands.cjs');
+      }
+      if (rel === '.mcp.json' && (spec.cwd !== '.' ||
+          !['HANDS_HOME', 'CPC_ROOT', 'CPC_CACHE'].every((key) => spec.env_vars?.includes(key)))) {
+        errors.push(rel + ' must set the plugin cwd and pass Hands path overrides through');
+      }
+    } else {
+      assertInstallTime(rel, name, 'command', spec.command);
+    }
     if (spec.env && typeof spec.env === 'object') {
       for (const [key, value] of Object.entries(spec.env)) {
         if (typeof value !== 'string') {
@@ -256,6 +270,13 @@ try {
   }
   if (backCompat.cache.path !== path.join(path.resolve(olderRoot), 'cache')) {
     errors.push('default Cache must be <Hands home>/cache');
+  }
+
+  if (process.platform === 'win32') {
+    const fromProfile = withEnv({ XDG_DATA_HOME: localApp }, () => resolveToolbeltPaths());
+    if (fromProfile.home.path !== path.join(os.homedir(), 'AppData', 'Local', 'AIWander', 'Hands')) {
+      errors.push('Windows must use the profile AppData/Local path when LOCALAPPDATA is unset');
+    }
   }
 
   const perUser = withEnv({ LOCALAPPDATA: localApp }, () => resolveToolbeltPaths());

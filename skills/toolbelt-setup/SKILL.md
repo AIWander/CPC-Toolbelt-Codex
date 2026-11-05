@@ -27,12 +27,9 @@ Do not brand this pack as autonomous, and do not publish a port map.
    `~/.codex/plugins/cpc-toolbelt`). Identity: `cpc-toolbelt` / display name
    **CPC Toolbelt**.
 2. Read `.mcp.json` and portable `mcp.json` at the plugin root. Both must be
-   stdio. The committed Hands command is `${HANDS_HOME}/servers/hands.exe`.
-   Fill `HANDS_HOME` at install time so the variable expands. If the host
-   cannot expand variables, write the resolved command only into the user's
-   private MCP config. On Windows, use forward slashes there — backslash paths
-   get mangled in some MCP loaders. Never write that absolute path back into
-   this repository.
+   stdio and start `scripts/launch-hands.cjs` with `node`. Confirm that
+   `node` is on the local client's PATH. The launcher resolves Hands each
+   time it starts.
 3. Verify `hands.exe` exists under `<Hands home>/servers` when the session can
    see the local filesystem. If missing, tell the user to install Hands first.
 4. Confirm Cache: `CPC_CACHE`, or `<Hands home>/cache` when they have not set
@@ -60,7 +57,7 @@ Do not brand this pack as autonomous, and do not publish a port map.
 
 ## Done when
 
-- Hands command is stdio and `HANDS_HOME` is filled for this machine (or the private config holds the resolved command)
+- Hands uses stdio and the launcher can find the executable
 - Cache path is `CPC_CACHE` or `<Hands home>/cache`
 - Hands tools are available (or the gap is clearly named)
 - User knows the next skill (`hands-getting-started` or `enable-optional`)

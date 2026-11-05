@@ -3,7 +3,8 @@
   "mcpServers": {
     "hands": {
       "type": "stdio",
-      "command": "${HANDS_HOME}/servers/hands.exe"
+      "command": "node",
+      "args": ["${PLUGIN_ROOT}/scripts/launch-hands.cjs"]
     }
   }
 }

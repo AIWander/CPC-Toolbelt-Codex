@@ -9,29 +9,29 @@ This repository is a **Codex / ChatGPT plugin** (Agent Plugins portable layout +
 
 | Piece | How it ships (v0.1) |
 |---|---|
-| Hands | Required stdio MCP in `.mcp.json` / `mcp.json`: `${HANDS_HOME}/servers/hands.exe` |
+| Hands | Stdio MCP in `.mcp.json` and `mcp.json`, started by `scripts/launch-hands.cjs` |
 | Cache | `CPC_CACHE`, or `<Hands home>/cache` when that variable is unset, via the `cache-first` skill — **no Cache MCP** |
 | Workflow / Manager / Voice | Skills + `mcp.optionals.example.json` (optional stdio; not wired by default) |
 | Programmer | **Directed-only** — do not default-wire Programmer MCP (same as Cursor) |
 | Autonomous | **Not** included — a separate product, not part of this pack |
 
-This plugin does **not** ship compiled MCP binaries and does **not** send your files to AIwander. Hands and other CPC servers run on your machine. Codex / ChatGPT load the skills and the MCP command filled in at install time.
+This plugin does **not** ship compiled MCP binaries and does **not** send your files to AIwander. Hands and other CPC servers run on your machine. Codex and ChatGPT desktop load the skills and start Hands through the bundled launcher.
 
 ## Paths
 
-Resolved at install time, and again by `scripts/resolve-paths.cjs`. Nothing in this repo points at one person's machine.
+The launcher runs `scripts/resolve-paths.cjs` each time Hands starts.
 
 1. **Hands home:** `HANDS_HOME` if set, else `CPC_ROOT` (older installs), else `%LOCALAPPDATA%\AIWander\Hands`. When `LOCALAPPDATA` is unset, that is the current user's application-data directory plus `AIWander/Hands`.
 2. **Cache:** `CPC_CACHE` if set, else `<Hands home>/cache`.
 3. **Binaries:** `<Hands home>/servers/<name>.exe`.
 
-`CPC_ROOT` and `CPC_CACHE` are back-compat environment overrides. Leave them empty on a new install. Fill `HANDS_HOME` at install time so the stdio command can expand. If the host cannot expand variables, write the resolved command only into the user's private MCP config. Do not paste an absolute path back into this repository.
+Leave `HANDS_HOME` and `CPC_ROOT` unset to use the default. Set either override in the environment that starts Codex or ChatGPT desktop. Codex forwards those variables through the compatibility config.
 
 ## Requirements
 
 1. Hands installed on this machine (`<Hands home>/servers/hands.exe`).
 2. Codex CLI and/or ChatGPT desktop with plugins enabled.
-3. Stdio Hands entry `${HANDS_HOME}/servers/hands.exe` in `.mcp.json` and `mcp.json`. On Windows, a path written into the user's private config should use forward slashes — backslash paths get mangled in some MCP loaders. The `getting-started` skill covers this.
+3. Node.js (`node` on the local client’s PATH) to run the Hands launcher.
 
 ## Install (local marketplace)
 
@@ -55,7 +55,7 @@ Run the `getting-started` skill. It calls `hands_setup_status` before any other 
 1. Copy this folder to `~/.codex/plugins/cpc-toolbelt` (Windows: `%USERPROFILE%\.codex\plugins\cpc-toolbelt`).
 2. Add a personal marketplace entry at `~/.agents/plugins/marketplace.json` pointing `source.path` at that plugin directory (path relative to the marketplace root).
 3. Restart ChatGPT desktop / refresh Codex plugins.
-4. Set `HANDS_HOME` so `${HANDS_HOME}` expands, or write the resolved stdio command only into the user's private MCP config.
+4. Verify that `node` is available and run the `getting-started` skill.
 
 Check the tree with `node scripts/validate.mjs` before publishing. It fails if a machine-specific path is committed.
 
@@ -67,6 +67,7 @@ plugin.json                 # portable Agent Plugins manifest ($schema)
 .mcp.json                   # Hands stdio (Codex-compat)
 mcp.json                    # Hands stdio (portable Agent Plugins)
 mcp.optionals.example.json  # voice / workflow / manager (not default)
+scripts/launch-hands.cjs    # launches Hands over stdio
 scripts/resolve-paths.cjs   # HANDS_HOME, else CPC_ROOT, else per-user Hands home
 scripts/validate.mjs        # fails if a machine-specific path is committed
 .agents/plugins/marketplace.json
@@ -76,7 +77,7 @@ assets/logo.svg
 
 ## MCP transport
 
-Every MCP server shipped here is **stdio**. Commands use `${HANDS_HOME}` (filled at install time). This pack does not publish a shared-host port map. Remote use, when you need it, is a private tunnel you sign into yourself. The `getting-started` skill walks through that. There is no public link by default.
+Every MCP server shipped here is **stdio**. The bundled Hands launcher resolves its executable at startup. Optional examples still require the local Hands path to be filled in. This pack does not publish a shared-host port map. Remote use, when you need it, is a private tunnel you sign into yourself. The `getting-started` skill walks through that. There is no public link by default.
 
 ## Privacy
 

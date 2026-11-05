@@ -17,7 +17,7 @@ Resolve these at runtime. Do not invent a drive letter or a home directory.
 2. Cache: `CPC_CACHE` if set, else `<Hands home>/cache`.
 3. Hands binary: `<Hands home>/servers/hands.exe` (or the executable `hands_setup_status` reports).
 
-The committed `.mcp.json` and `mcp.json` entries are stdio and use `${HANDS_HOME}/servers/hands.exe`. Fill `HANDS_HOME` at install time so that command expands. If this host cannot expand variables, write the resolved command only into the user's private MCP config. On Windows, use forward slashes in that private config. Never commit an absolute path to the plugin repo, and never put a key or token in that config.
+The committed stdio entries start the bundled Hands launcher with `node`. The launcher resolves the executable at startup. Confirm that `node` is on the local client’s PATH. Set `HANDS_HOME` in the client’s environment only to override the resolved home.
 
 ## Wire Hands
 

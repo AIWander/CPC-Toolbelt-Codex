@@ -14,7 +14,7 @@ Ask yes/no for each. All of them are stdio. The Hands home is `HANDS_HOME`, else
 
 | Server | Default | Notes |
 |---|---|---|
-| Hands | Wired in `.mcp.json` / `mcp.json` | Required free Toolbelt surface. Command `${HANDS_HOME}/servers/hands.exe` |
+| Hands | Wired in `.mcp.json` / `mcp.json` | Required free Toolbelt surface. Bundled launcher resolves Hands at startup. |
 | Cache | Path skills only | `CPC_CACHE`, or `<Hands home>/cache`. No Cache MCP |
 | Voice | Optional | `<Hands home>/servers/voice.exe` |
 | Workflow | Optional | `<Hands home>/servers/workflow.exe`. Data dir `${HANDS_HOME}/data/workflow` |

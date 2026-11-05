@@ -17,7 +17,7 @@ Local / team distribution: repo or personal marketplace (this repo ships one).
 - Display name: CPC Toolbelt
 - Version: 0.1.0
 
-Hands home resolves at runtime: `HANDS_HOME`, else `CPC_ROOT`, else `%LOCALAPPDATA%\AIWander\Hands` (the current user's application-data directory plus `AIWander/Hands` when `LOCALAPPDATA` is unset). Cache is `CPC_CACHE`, else `<Hands home>/cache`. Shipped MCP entries are stdio and use `${HANDS_HOME}`, filled at install time.
+Hands home resolves at runtime: `HANDS_HOME`, else `CPC_ROOT`, else `%LOCALAPPDATA%\AIWander\Hands` (the current user's application-data directory plus `AIWander/Hands` when `LOCALAPPDATA` is unset). Cache is `CPC_CACHE`, else `<Hands home>/cache`. The bundled Hands entry uses Node.js to resolve and start the local executable over stdio.
 
 ## Local marketplace commands
 
@@ -38,7 +38,7 @@ Run `getting-started` after install. It calls `hands_setup_status` before any ot
 copy/clone → %USERPROFILE%\.codex\plugins\cpc-toolbelt
 edit ~/.agents/plugins/marketplace.json → source.path to that folder (relative to marketplace root)
 restart ChatGPT desktop / refresh Codex
-set HANDS_HOME so ${HANDS_HOME} expands, or write the resolved stdio command only into the user's private MCP config
+verify node is on PATH and run getting-started
 ```
 
 Do not commit that resolved path.
